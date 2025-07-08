@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecurePass - Features</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="SecurePass.png">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-100 to-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-md">
+    <h1 class="flex items-center text-2xl font-bold">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      SecurePass
+    </h1>
+
+    <!-- Hamburger Menu Button -->
+    <div class="md:hidden">
+      <button id="menuToggle" class="focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+
+    <nav id="navLinks" class="space-x-4 hidden md:flex text-sm font-medium">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="features.html" class="hover:underline hidden">Features</a>
+      <a href="login.html" class="hover:underline">Login</a>
+      <a href="register.html" class="hover:underline">Register</a>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div id="mobileNav" class="md:hidden hidden bg-white shadow-md rounded-lg mt-2 transition-all duration-300 ease-in-out">
+    <nav class="flex flex-col space-y-2 p-4">
+      <a href="index.html" class="block text-gray-700 hover:bg-emerald-100 rounded-md p-2 transition duration-200">Home</a>
+      <a href="login.html" class="block text-gray-700 hover:bg-emerald-100 rounded-md p-2 transition duration-200">Login</a>
+      <a href="register.html" class="block text-gray-700 hover:bg-emerald-100 rounded-md p-2 transition duration-200">Register</a>
+    </nav>
+  </div>
+
+  <!-- Features Section -->
+  <main class="flex-grow px-6 py-12 max-w-5xl mx-auto">
+    <h2 class="text-3xl font-bold text-emerald-600 text-center mb-8">Why Choose SecurePass?</h2>
+
+    <div class="grid md:grid-cols-2 gap-8">
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-xl font-semibold text-emerald-700 mb-2">🔒 Secure & Strong Passwords</h3>
+        <p class="text-gray-600">Generate passwords using uppercase, lowercase, numbers, symbols, or even memorable word combinations. Perfectly balanced between security and memorability.</p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-xl font-semibold text-emerald-700 mb-2">💾 Save Your Passwords</h3>
+        <p class="text-gray-600">Logged-in users can securely save their generated passwords to a private dashboard — no signup? No problem, generate without saving too!</p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-xl font-semibold text-emerald-700 mb-2">⚡ Fast & Easy to Use</h3>
+        <p class="text-gray-600">No complexity. Clean interface. One-click generation and copy functionality. Works instantly across all browsers and devices.</p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-xl font-semibold text-emerald-700 mb-2">🧠 Memorable Word Mode</h3>
+        <p class="text-gray-600">Want a password that's easier to remember but still strong? Generate creative combinations of random words — optionally add numbers too.</p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-xl font-semibold text-emerald-700 mb-2">📱 Responsive Design</h3>
+        <p class="text-gray-600">Fully mobile-friendly interface using Tailwind CSS. Whether you're on desktop or mobile, SecurePass adapts beautifully.</p>
+      </div>
+
+      <div class="bg-white rounded-xl shadow p-6">
+        <h3 class="text-xl font-semibold text-emerald-700 mb-2">🧾 Download Passwords as PDF</h3>
+        <p class="text-gray-600">Logged-in users can download all their saved passwords in a neatly formatted PDF with one click — secure, simple, and printable!</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-emerald-600 text-white text-center py-6 text-sm">
+    © 2025 SecurePass. All rights reserved.
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const toggleBtn = document.getElementById("menuToggle");
+      const mobileNav = document.getElementById("mobileNav");
+
+      toggleBtn.addEventListener("click", () => {
+        mobileNav.classList.toggle("hidden");
+      });
+    });
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      localStorage.removeItem("loggedInUserEmail");
+      window.location.href = "login.html";
+    }
+  </script>
+
+</body>
+</html>

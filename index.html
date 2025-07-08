@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SecurePass - Password Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="SecurePass.png">
+  <style>
+    @keyframes slideFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-slide-fade {
+      animation: slideFadeIn 1s ease-out forwards;
+    }
+
+    * {
+      transition: all 0.3s ease;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-800">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-md">
+    <h1 class="flex items-center text-2xl font-bold">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      SecurePass
+    </h1>
+
+    <nav class="space-x-4 hidden md:flex text-sm font-medium">
+      <a href="index.html" class="hover:underline">Home</a>
+      <a href="features.html" class="hover:underline">Features</a>
+      <a href="login.html" class="hover:underline">Login</a>
+      <a href="register.html" class="hover:underline">Register</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="text-center px-4 py-24 bg-gradient-to-b from-green-50 to-white">
+    <h2 id="heroTitle" class="text-4xl md:text-5xl font-black tracking-tight mb-4 text-emerald-600 h-[60px] leading-none">
+      <span id="typeText" class="inline-block"></span>
+      <span class="border-r-2 border-emerald-600 animate-pulse"></span>
+    </h2>
+
+    <p class="text-lg text-gray-600 mb-6 max-w-xl mx-auto">
+      Manage your passwords with ease, confidence, and bulletproof security. No stress. No compromise.
+    </p>
+    <a href="login.html" class="inline-block px-8 py-3 bg-gradient-to-r from-emerald-500 to-green-600 text-white rounded-full font-semibold shadow-md hover:from-emerald-600 hover:to-green-700 transition">
+      Get Started
+    </a>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="py-20 px-6 bg-white">
+    <div class="text-center mb-12">
+      <h3 class="text-3xl font-bold text-gray-800 mb-2">Why Choose SecurePass?</h3>
+      <p class="text-gray-600">Smart tools to keep your credentials secure and accessible</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      <div class="p-6 rounded-xl shadow-lg bg-gradient-to-tr from-white via-green-50 to-white hover:shadow-xl transition">
+        <h4 class="text-xl font-semibold mb-2 text-emerald-600">Easy Access</h4>
+        <p>Store, search, and manage all your credentials from one secure dashboard.</p>
+      </div>
+      <div class="p-6 rounded-xl shadow-lg bg-gradient-to-tr from-white via-green-50 to-white hover:shadow-xl transition">
+        <h4 class="text-xl font-semibold mb-2 text-emerald-600">Strong Generator</h4>
+        <p>Generate complex, unique passwords with just a click — tailored to your needs.</p>
+      </div>
+      <div class="p-6 rounded-xl shadow-lg bg-gradient-to-tr from-white via-green-50 to-white hover:shadow-xl transition">
+        <h4 class="text-xl font-semibold mb-2 text-emerald-600">Privacy First</h4>
+        <p>We don’t track or store your data. Everything stays on your device — always.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-r from-emerald-500 to-green-600 text-white py-10 mt-8">
+    <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
+      <div>
+        <h5 class="font-bold text-lg mb-2">SecurePass</h5>
+        <p>Helping you keep your digital identity safe and simple.</p>
+      </div>
+      <div>
+        <h5 class="font-bold text-lg mb-2">Navigation</h5>
+        <ul class="space-y-1">
+          <li><a href="index.html" class="hover:underline hidden">Home</a></li>
+          <li><a href="features.html" class="hover:underline">Features</a></li>
+          <li><a href="login.html" class="hover:underline">Login</a></li>
+          <li><a href="register.html" class="hover:underline">Register</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5 class="font-bold text-lg mb-2">Contact</h5>
+        <p>Email: support@securepass.com</p>
+        <p>Phone: +123 456 7890</p>
+      </div>
+    </div>
+    <div class="text-center mt-6 text-xs border-t border-green-400 pt-4">
+      © 2025 SecurePass. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    const phrases = [
+      "Secure Your Digital Life",
+      "Protect Your Passwords",
+      "Stay Safe Online"
+    ];
+
+    const typeSpan = document.getElementById("typeText");
+
+    let phraseIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let delay = 100;
+
+    function typeEffect() {
+      const currentPhrase = phrases[phraseIndex];
+      typeSpan.textContent = currentPhrase.substring(0, charIndex);
+
+      if (isDeleting) {
+        charIndex--;
+        delay = 60;
+      } else {
+        charIndex++;
+        delay = 100;
+      }
+
+      if (!isDeleting && charIndex > currentPhrase.length) {
+        isDeleting = true;
+        delay = 1500;
+        charIndex = currentPhrase.length;
+      }
+
+      if (isDeleting && charIndex < 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        charIndex = 0;
+        delay = 500;
+      }
+
+      setTimeout(typeEffect, delay);
+    }
+
+    document.addEventListener("DOMContentLoaded", typeEffect);
+  </script>
+
+</body>
+</html>

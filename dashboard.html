@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecurePass - Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="SecurePass.png">
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-100 to-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-6 py-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-md">
+    <h1 class="flex items-center text-2xl font-bold">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      </svg>
+      SecurePass
+    </h1>
+
+    <!-- Hamburger Menu Button -->
+    <div class="md:hidden">
+      <button id="menuToggle" class="focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+
+    <nav class="space-x-4 text-sm font-medium hidden md:flex">
+      <a href="generator.html" class="hover:underline">Password Generator</a>
+      <a href="#" onclick="logout()" class="hover:underline">Logout</a>
+    </nav>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div id="mobileNav" class="md:hidden hidden bg-white shadow-md rounded-lg mt-2 transition-all duration-300 ease-in-out">
+    <nav class="flex flex-col space-y-2 p-4">
+      <a href="generator.html" class="block text-gray-700 hover:bg-emerald-100 rounded-md p-2 transition duration-200">Password Generator</a>
+      <a href="#" onclick="logout()" class="block text-gray-700 hover:bg-emerald-100 rounded-md p-2 transition duration-200">Logout</a>
+    </nav>
+  </div>
+
+  <!-- Dashboard Content -->
+  <main class="flex-grow px-4 py-10">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold text-emerald-600 mb-4">Welcome, <span id="userName">User</span> 👋</h2>
+      <p class="text-gray-600 mb-6">Here are your saved passwords:</p>
+
+      <!-- Download PDF Button -->
+      <button id="downloadBtn" onclick="downloadPDF()" class="mb-6 bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600 hidden">
+        📥 Download as PDF
+      </button>
+
+      <div id="passwordList" class="space-y-4"></div>
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer class="bg-emerald-600 text-white text-center py-6 text-sm">
+    © 2025 SecurePass. All rights reserved.
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const user = localStorage.getItem("loggedInUser");
+    const userEmail = localStorage.getItem("loggedInUserEmail");
+    const userNameEl = document.getElementById("userName");
+    const passwordList = document.getElementById("passwordList");
+
+    if (!user || !userEmail) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+    } else {
+      userNameEl.textContent = user;
+      const savedPasswords = JSON.parse(localStorage.getItem("savedPasswords") || "{}");
+      const userPasswords = savedPasswords[userEmail] || [];
+
+      if (userPasswords.length === 0) {
+        passwordList.innerHTML = `<p class="text-gray-500">You haven't saved any passwords yet.</p>`;
+        document.getElementById("downloadBtn")?.classList.add("hidden");
+      } else {
+        document.getElementById("downloadBtn")?.classList.remove("hidden");
+
+        userPasswords.forEach((entry, index) => {
+          const div = document.createElement("div");
+          div.className = "bg-white p-4 rounded-xl shadow flex justify-between items-center";
+
+          div.innerHTML = `
+            <div>
+              <p class="font-semibold text-emerald-600 mb-1">📌 ${entry.title || "Untitled"}</p>
+              <p class="font-medium text-gray-700">🔐 ${entry.password}</p>
+              <p class="text-xs text-gray-400">Saved on: ${entry.timestamp}</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="copyToClipboard('${entry.password}')" class="bg-emerald-500 text-white px-3 py-1 rounded hover:bg-emerald-600 text-sm">Copy</button>
+              <button onclick="deletePassword(${index})" class="bg-red-100 text-red-600 px-3 py-1 rounded hover:bg-red-200 text-sm">Delete</button>
+            </div>
+          `;
+          passwordList.appendChild(div);
+        });
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedInUser");
+      localStorage.removeItem("loggedInUserEmail");
+      window.location.href = "login.html";
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Password copied to clipboard!");
+      });
+    }
+
+    function deletePassword(index) {
+      const savedPasswords = JSON.parse(localStorage.getItem("savedPasswords") || "{}");
+      const userEmail = localStorage.getItem("loggedInUserEmail");
+
+      if (savedPasswords[userEmail]) {
+        savedPasswords[userEmail].splice(index, 1);
+        localStorage.setItem("savedPasswords", JSON.stringify(savedPasswords));
+        location.reload();
+      }
+    }
+
+    async function downloadPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const savedPasswords = JSON.parse(localStorage.getItem("savedPasswords") || "{}");
+      const entries = savedPasswords[userEmail] || [];
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(18);
+      doc.text("SecurePass - Saved Passwords", 20, 20);
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(12);
+      doc.text(`User: ${user} (${userEmail})`, 20, 30);
+
+      let y = 45;
+      entries.forEach((entry, index) => {
+        doc.text(`${index + 1}. ${entry.password}`, 20, y);
+        doc.text(`Saved on: ${entry.timestamp}`, 20, y + 6);
+        y += 16;
+
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+
+      doc.save("Saved_Passwords.pdf");
+    }
+
+    // Hamburger Menu Functionality
+    const toggleBtn = document.getElementById("menuToggle");
+    const mobileNav = document.getElementById("mobileNav");
+
+    toggleBtn.addEventListener("click", () => {
+      mobileNav.classList.toggle("hidden");
+    });
+  </script>
+
+</body>
+</html>
