@@ -103,7 +103,7 @@
       e.preventDefault();
       const email = document.getElementById("loginEmail").value.trim();
       const password = document.getElementById("loginPassword").value;
-      const userData = JSON.parse(localStorage.getItem("registeredUser "));
+      const userData = JSON.parse(localStorage.getItem("registeredUser"));
 
       if (!userData || userData.email !== email) {
         alert("User  not found. Please register first.");
