@@ -224,13 +224,13 @@
     });
 
     // Show user's name if logged in
-    const user = localStorage.getItem("loggedInUser ");
+    const user = localStorage.getItem("loggedInUser");
     const usernameEl = document.getElementById("userName");
 
     if (user) {
       if (usernameEl) usernameEl.textContent = user;
       document.getElementById("saveBtn")?.classList.remove("hidden");
-      // Hide guest header links
+      // document.getElementById("userName").textContent = user;
       document.getElementById("homeLink")?.remove();
       document.getElementById("featuresLink")?.remove();
       document.getElementById("loginLink")?.remove();
@@ -246,7 +246,7 @@
     }
 
     function logout() {
-      localStorage.removeItem("loggedInUser ");
+      localStorage.removeItem("loggedInUser");
       localStorage.removeItem("sessionExpiresAt");
       window.location.href = "login.html";
     }
